@@ -1,0 +1,62 @@
+const steps = [
+  {
+    title: 'Analiză',
+    description:
+      'Mapăm procesul actual și stabilim exact ce se automatizează și ce rămâne o decizie umană.',
+  },
+  {
+    title: 'Construcție',
+    description:
+      'Livrăm în iterații scurte, cu acces la o versiune funcțională de la primele săptămâni.',
+  },
+  {
+    title: 'Lansare & suport',
+    description:
+      'Punem soluția în producție, instruim echipa și rămânem disponibili pentru ajustări.',
+  },
+];
+
+/**
+ * The page's one dark band. Breaks up an otherwise uniformly light page and
+ * gives the delivery sequence the emphasis it deserves — the numbering is
+ * legitimate here because these steps genuinely happen in order.
+ */
+export default function Process() {
+  return (
+    <section id="proces" className="bg-obsidian py-bay-sm text-white md:py-bay">
+      <div className="mx-auto max-w-shell px-6">
+        <div className="flex max-w-[38rem] flex-col gap-3">
+          <p className="font-mono text-[0.6875rem] uppercase tracking-label text-ash">
+            Cum lucrăm
+          </p>
+          <h2 className="max-w-[30ch] text-balance text-[clamp(1.75rem,4vw,2.5rem)] font-semibold leading-[1.12] tracking-heading">
+            De la proces manual la software live, în trei etape
+          </h2>
+          <p className="max-w-[34rem] text-lg text-ash">
+            Fără surprize pe parcurs: știi ce se construiește, când se livrează
+            și cine răspunde după lansare.
+          </p>
+        </div>
+
+        <ol className="mt-14 grid grid-cols-[repeat(auto-fit,minmax(14rem,1fr))] gap-x-8 gap-y-10">
+          {steps.map((step, index) => (
+            <li
+              key={step.title}
+              className="flex flex-col gap-2.5 border-t border-white/15 pt-5"
+            >
+              <span className="font-mono text-[0.6875rem] tabular-nums tracking-label text-signal-lift">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="text-[1.1875rem] font-semibold tracking-title">
+                {step.title}
+              </h3>
+              <p className="text-[0.9375rem] leading-[1.58] text-ash">
+                {step.description}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}

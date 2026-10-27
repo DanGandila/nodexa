@@ -1,0 +1,11 @@
+# Cloudflare Pages configuration.
+#
+# `pages_build_output_dir` is what marks this as a Pages project and stops
+# Cloudflare from auto-detecting Next.js and assuming a `next-on-pages`
+# Workers build — this site is a plain static export (`output: 'export'`),
+# served from out/ with Pages Functions in functions/.
+#
+# `name` must match the Pages project name in the Cloudflare dashboard.
+name = "nodexa"
+pages_build_output_dir = "out"
+compatibility_date = "2024-09-23"
