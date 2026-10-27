@@ -2,13 +2,15 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'nodexa — Aplicații custom, CRM-uri & agenți AI',
+  // Abstract where we position (description), specific where people search
+  // (title, service cards) — "CRM" is a high-intent search term worth keeping.
+  title: 'nodexa — Aplicații custom, CRM-uri și agenți AI',
   description:
-    'Nodexa construiește aplicații web personalizate, CRM-uri și agenți AI care automatizează procesele afacerii tale. Studio de software din România.',
+    'Nodexa construiește software pe măsură pentru companii în creștere din România — ca să servești mai mulți clienți fără să îți dublezi echipa.',
   openGraph: {
-    title: 'nodexa — Aplicații custom, CRM-uri & agenți AI',
+    title: 'nodexa — Aplicații custom, CRM-uri și agenți AI',
     description:
-      'Transformăm procesele manuale în software la cheie: aplicații web custom, sisteme CRM și agenți AI care preiau munca repetitivă.',
+      'Procesele care funcționau la 5 oameni se rup la 25. Construim software care ține pasul cu creșterea ta.',
     locale: 'ro_RO',
     type: 'website',
   },

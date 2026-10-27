@@ -1,74 +1,97 @@
 import type { ReactNode } from 'react';
+import Reveal from './Reveal';
 
-const STROKE = {
+const EDGE = {
   fill: 'none',
   stroke: 'currentColor',
   strokeWidth: 1.6,
   strokeLinecap: 'round' as const,
-  strokeLinejoin: 'round' as const,
 };
+
+const NODE_IN = 'fill-mist stroke-ink/30';
+const NODE_OUT = 'fill-ink';
 
 type Service = {
   title: string;
   description: string;
-  glyph: ReactNode;
+  figure: ReactNode;
 };
 
 /**
- * Glyphs are drawn from the mark's vocabulary — nodes and edges only — so the
- * icon set reads as part of the identity rather than a borrowed icon library.
+ * Each service carries a wordless flow figure on a shared 228×64 grid, drawn
+ * in the same nodes-and-edges vocabulary as the mark. One grammar across all
+ * three: hollow nodes are inputs that arrive from outside, the single
+ * signal-colored node is the system we build, solid ink nodes are outcomes.
+ *
+ * The figures are what tell the three services apart at a glance — a
+ * convergence, a queue with an escape hatch, a fan-out.
  */
 const services: Service[] = [
   {
     title: 'Aplicații custom',
     description:
-      'Aplicații web construite exact pe fluxul tău de lucru, nu pe un șablon în care trebuie să te îndoi.',
-    glyph: (
+      'Aplicații web și CRM-uri construite pe fluxul tău real de lucru: un singur loc pentru clienți, oferte și vânzări, nu un șablon la care să îți adaptezi echipa.',
+    // Scattered tools collapse into one system, and one place to look.
+    figure: (
       <>
-        <rect x="3" y="4" width="18" height="16" rx="3.2" {...STROKE} />
-        <path d="M3 9 H21" {...STROKE} />
-        <circle cx="6.4" cy="6.5" r="1.15" className="fill-signal" />
-      </>
-    ),
-  },
-  {
-    title: 'CRM-uri',
-    description:
-      'Sisteme de gestiune a clienților și vânzărilor, integrate cu uneltele pe care echipa ta le folosește deja.',
-    glyph: (
-      <>
-        <circle cx="5" cy="6.5" r="1.9" className="fill-signal" />
-        <path d="M9.4 6.5 H20.5" {...STROKE} />
-        <circle cx="5" cy="12" r="1.9" fill="currentColor" />
-        <path d="M9.4 12 H20.5" {...STROKE} />
-        <circle cx="5" cy="17.5" r="1.9" fill="currentColor" />
-        <path d="M9.4 17.5 H16" {...STROKE} />
+        <path d="M24 12 L136 32" {...EDGE} />
+        <path d="M24 32 H136" {...EDGE} />
+        <path d="M24 52 L136 32" {...EDGE} />
+        <path d="M136 32 H204" {...EDGE} />
+        <circle cx="24" cy="12" r="4.6" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="24" cy="32" r="4.6" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="24" cy="52" r="4.6" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="136" cy="32" r="7.5" className="fill-signal" />
+        <circle cx="204" cy="32" r="5" className={NODE_OUT} />
       </>
     ),
   },
   {
     title: 'Agenți AI',
     description:
-      'Agenți care răspund clienților, procesează documente și iau decizii pe baza datelor tale — non-stop.',
-    glyph: (
+      'Agenți care preiau cererile repetitive, procesează documente și răspund clienților non-stop, fără să crești echipa.',
+    // A queue of requests meets the agent; most resolve straight through, the
+    // hard ones leave on the dashed exception path.
+    figure: (
       <>
-        <circle cx="12" cy="12" r="7.2" {...STROKE} opacity="0.35" />
-        <circle cx="12" cy="12" r="2.6" fill="currentColor" />
-        <circle cx="12" cy="4.8" r="1.9" className="fill-signal" />
+        <path d="M24 8 L108 32" {...EDGE} />
+        <path d="M24 24 L108 32" {...EDGE} />
+        <path d="M24 40 L108 32" {...EDGE} />
+        <path d="M24 56 L108 32" {...EDGE} />
+        <path d="M108 32 H204" {...EDGE} />
+        <path d="M108 32 L197 11" {...EDGE} strokeDasharray="3 4" />
+        <circle cx="24" cy="8" r="4" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="24" cy="24" r="4" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="24" cy="40" r="4" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="24" cy="56" r="4" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="108" cy="32" r="8" className="fill-signal" />
+        <circle
+          cx="204"
+          cy="10"
+          r="4.6"
+          strokeWidth="1.6"
+          className={NODE_IN}
+        />
+        <circle cx="204" cy="32" r="5" className={NODE_OUT} />
       </>
     ),
   },
   {
     title: 'Automatizări',
     description:
-      'Conectăm aplicațiile existente și eliminăm pașii manuali care consumă ore în fiecare săptămână.',
-    glyph: (
+      'Conectăm uneltele pe care le ai deja și eliminăm pașii manuali care se multiplică odată cu volumul.',
+    // One incoming trigger, no manual step between, three parallel results.
+    figure: (
       <>
-        <circle cx="4.6" cy="12" r="1.9" fill="currentColor" />
-        <path d="M7 12 H10.5 L14 7.4" {...STROKE} />
-        <path d="M10.5 12 L14 16.6" {...STROKE} />
-        <circle cx="15.6" cy="6.8" r="1.9" className="fill-signal" />
-        <circle cx="15.6" cy="17.2" r="1.9" fill="currentColor" />
+        <path d="M24 32 H92" {...EDGE} />
+        <path d="M92 32 L204 12" {...EDGE} />
+        <path d="M92 32 H204" {...EDGE} />
+        <path d="M92 32 L204 52" {...EDGE} />
+        <circle cx="24" cy="32" r="4.6" strokeWidth="1.6" className={NODE_IN} />
+        <circle cx="92" cy="32" r="7.5" className="fill-signal" />
+        <circle cx="204" cy="12" r="5" className={NODE_OUT} />
+        <circle cx="204" cy="32" r="5" className={NODE_OUT} />
+        <circle cx="204" cy="52" r="5" className={NODE_OUT} />
       </>
     ),
   },
@@ -78,34 +101,43 @@ export default function Services() {
   return (
     <section id="servicii" className="py-bay-sm md:py-bay">
       <div className="mx-auto max-w-shell px-6">
-        <div className="flex max-w-[38rem] flex-col gap-3">
+        <Reveal className="flex max-w-[38rem] flex-col gap-3">
           <p className="font-mono text-[0.6875rem] uppercase tracking-label text-graphite">
             Servicii
           </p>
           <h2 className="text-balance text-[clamp(1.75rem,4vw,2.5rem)] font-semibold leading-[1.12] tracking-heading text-ink">
-            Patru servicii, un singur obiectiv
+            Trei servicii, un singur obiectiv
           </h2>
           <p className="max-w-[34rem] text-lg text-graphite">
-            Software care îți aduce rezultate măsurabile, nu doar un livrabil.
+            Să poți servi mai mulți clienți fără să adaugi proporțional mai
+            mulți oameni.
           </p>
-        </div>
+        </Reveal>
 
         <ul className="mt-12 grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4">
-          {services.map((service) => (
-            <li
-              key={service.title}
-              className="flex flex-col gap-3.5 rounded-[18px] border border-hairline bg-white p-[1.875rem] transition duration-200 hover:-translate-y-0.5 hover:border-hairline-strong"
-            >
-              <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true" className="text-ink">
-                {service.glyph}
-              </svg>
-              <h3 className="text-[1.1875rem] font-semibold tracking-title text-ink">
-                {service.title}
-              </h3>
-              <p className="text-[0.9375rem] leading-[1.58] text-graphite">
-                {service.description}
-              </p>
-            </li>
+          {services.map((service, index) => (
+            // The reveal wrapper owns the entrance transform; the card inside
+            // owns the hover one. Sharing an element would make the hover
+            // inherit the reveal's long duration and stagger delay.
+            <Reveal as="li" key={service.title} delay={120 + index * 80}>
+              <div className="group flex h-full flex-col gap-3.5 rounded-[18px] border border-hairline bg-white p-[1.875rem] transition duration-200 hover:-translate-y-1 hover:border-hairline-strong hover:shadow-[0_18px_40px_-24px_rgba(16,20,28,0.35)]">
+                <div className="mb-1 overflow-hidden rounded-[12px] bg-mist px-4 py-3.5">
+                  <svg
+                    viewBox="0 0 228 64"
+                    aria-hidden="true"
+                    className="h-auto w-full text-ink/20 transition-[color,transform] duration-500 ease-out group-hover:scale-[1.03] group-hover:text-ink/30"
+                  >
+                    {service.figure}
+                  </svg>
+                </div>
+                <h3 className="text-[1.1875rem] font-semibold tracking-title text-ink">
+                  {service.title}
+                </h3>
+                <p className="text-[0.9375rem] leading-[1.58] text-graphite">
+                  {service.description}
+                </p>
+              </div>
+            </Reveal>
           ))}
         </ul>
       </div>

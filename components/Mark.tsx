@@ -7,6 +7,12 @@ type MarkProps = {
    * where the nodes and edges otherwise merge into a blur.
    */
   compact?: boolean;
+  /**
+   * Render every node in `currentColor` instead of accenting the entry node.
+   * For watermarks and tinted grounds, where a single blue dot would fight
+   * the surface it sits on.
+   */
+  mono?: boolean;
   className?: string;
 };
 
@@ -14,7 +20,17 @@ type MarkProps = {
  * The nodexa mark: the letter N drawn as four nodes joined by three edges.
  * Inherits its color from `currentColor`; the entry node carries the accent.
  */
-export default function Mark({ size = 24, compact = false, className }: MarkProps) {
+export default function Mark({
+  size = 24,
+  compact = false,
+  mono = false,
+  className,
+}: MarkProps) {
+  const entryNode = mono
+    ? { fill: 'currentColor' }
+    : { className: 'fill-signal' };
+
+
   return (
     <svg
       width={size}
@@ -33,7 +49,7 @@ export default function Mark({ size = 24, compact = false, className }: MarkProp
       />
       {!compact && (
         <>
-          <circle cx="14" cy="12" r="4.25" className="fill-signal" />
+          <circle cx="14" cy="12" r="4.25" {...entryNode} />
           <circle cx="14" cy="36" r="4.25" fill="currentColor" />
           <circle cx="34" cy="36" r="4.25" fill="currentColor" />
           <circle cx="34" cy="12" r="4.25" fill="currentColor" />

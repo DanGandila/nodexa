@@ -2,8 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  /* One decelerating curve for the whole site, so every motion feels related. */
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --reveal-duration: 620ms;
+}
+
 html {
   scroll-behavior: smooth;
+  /* Anchor targets clear the sticky header instead of landing under it. */
+  scroll-padding-top: 4.5rem;
 }
 
 body {
@@ -17,8 +25,108 @@ body {
   outline-offset: 3px;
 }
 
+/* ---------------------------------------------------------------- landing */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 20px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Used on the oversized watermark: slow enough to read as ambient, not as UI. */
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, -0.5rem, 0);
+  }
+  50% {
+    transform: translate3d(0, 0.5rem, 0);
+  }
+}
+
+.animate-rise {
+  animation: rise 820ms var(--ease-soft) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 1.4s var(--ease-soft) both;
+}
+
+.animate-float {
+  animation: float 11s ease-in-out infinite;
+}
+
+/* ---------------------------------------------------------------- reveals */
+
+.reveal {
+  transition:
+    opacity var(--reveal-duration) var(--ease-soft),
+    transform var(--reveal-duration) var(--ease-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/*
+ * The pre-reveal state is scoped to browsers that report scripting support,
+ * so the content can only be hidden where an observer exists to show it
+ * again. Without JS the page renders in its final state instead of blank.
+ */
+@media (scripting: enabled) {
+  .reveal {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+
+  /* For panels that read better growing into place than sliding. */
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.985);
+  }
+
+  /* For rules and dividers: they draw themselves in from the left. */
+  .reveal-line {
+    opacity: 1;
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ------------------------------------------------------- reduced motion */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .animate-rise,
+  .animate-fade-in,
+  .animate-float {
+    animation: none;
+  }
+
+  .reveal,
+  .reveal-scale,
+  .reveal-line {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
 }

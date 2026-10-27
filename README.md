@@ -58,10 +58,17 @@ Workers build, which would look for `.next` instead of `out`.
    variables in the Pages project settings (Settings → Environment
    variables):
    - `RESEND_API_KEY` — API key from [Resend](https://resend.com)
-   - `CONTACT_TO_EMAIL` — inbox that should receive submissions
-   - `CONTACT_FROM_EMAIL` — verified sender address
-   Until these are set, the form still accepts submissions and returns
-   success, it just doesn't forward them anywhere.
+   - `CONTACT_TO_EMAIL` — inbox that should receive submissions (optional;
+     defaults to `danioangandila@gmail.com`)
+   - `CONTACT_FROM_EMAIL` — verified sender address (optional; defaults to
+     `onboarding@resend.dev`)
+   Only `RESEND_API_KEY` is required. Until it is set, the form still accepts
+   submissions and returns success, it just doesn't forward them anywhere.
+
+   Note: with the default `onboarding@resend.dev` sender, Resend only
+   delivers to the account owner's own address. To send to any other inbox,
+   verify a domain at resend.com/domains and set `CONTACT_FROM_EMAIL` to an
+   address on it.
 
    For local testing, put the same keys in a `.dev.vars` file at the repo
    root (gitignored) and `wrangler pages dev` will pick them up.
